@@ -70,17 +70,16 @@ half_life_nonlin = (-tau_nonlin*(np.log(0.5)))
 
 lin_pred = nonlin(time, tau_lin, np.exp(z_nought)) #creating y-data using parameters predicted by linear-regression
 nonlin_pred = nonlin(time, tau_nonlin, y_nought)#creating y-data using parameters predicted by nonlinear-regression
-theoretical_tau = -(2.6*60)/np.log(0.5) #converting theoretical half-life into theoretical tau
+theoretical_tau = -((2.6*60)/np.log(0.5)) #converting theoretical half-life into theoretical tau
 
 plt.figure(1) #not ln-scaled
 plt.ylabel('$Rate \\ (s^{-1})$')
 plt.xlabel('$Time\\ (s)$')
 plt.title('Barium-137m decay by gamma emission')
 plt.grid(visible=True, which='both', axis='both')
-plt.plot(time, lin_pred,color='blue', linestyle='dashed',label='Linear prediction')
-plt.errorbar(time, lin_pred, u_z, marker='|', ecolor='blue', capsize=8, fmt = 'none', mfc='blue', mec='blue', ms=10, mew=2, label='Linear prediction uncertainty')
-plt.plot(time, nonlin_pred,color='red', linestyle='dashdot', label='Nonlinear prediction')
-plt.errorbar(time, nonlin_pred, u_R, marker='|', capsize=5, ecolor='red',fmt = 'none', mfc='red', mec='r', ms=10, mew=2, label='Nonlinear prediction uncertainty')
+plt.errorbar(time, R, u_R, marker='|', capsize=4, ecolor='black',fmt = 'none', mfc='black', mec='black', ms=5, mew=2, label='Measured rate uncertainty')
+plt.plot(time, lin_pred,color='blue', linestyle='solid',label='Linear prediction')
+plt.plot(time, nonlin_pred,color='red', linestyle='solid', label='Nonlinear prediction')
 plt.plot(time, nonlin(time, theoretical_tau, y_nought),color='green', linestyle='solid',label='Theoretical prediction')
 plt.legend(loc='upper right', frameon=True)
 plt.savefig('Barium137_decay.png')
@@ -90,10 +89,9 @@ plt.ylabel('$ln(Rate) \\ (s^{-1})$')
 plt.xlabel('$Time\\ (s)$')
 plt.title('Barium-137m decay by gamma emission, scaled by natural logarithm')
 plt.grid(visible=True, which='major', axis='both')
-plt.plot(time, lin_pred,color='blue', linestyle='dashed',label='Linear prediction')
-plt.errorbar(time, lin_pred, u_z, marker='|', capsize=8,ecolor='blue', fmt= 'none', mfc='blue', mec='blue', ms=10, mew=2, label='Linear prediction uncertainty')
-plt.plot(time, nonlin_pred,color='red', linestyle='dashdot',label='Nonlinear prediction')
-plt.errorbar(time, nonlin_pred, u_R, marker='|', capsize=5, ecolor='red', fmt='none', mfc='red', mec='r', ms=8, mew=1, label='Nonlinear prediction uncertainty')
+plt.errorbar(time, R, u_R, marker='|', capsize=4, ecolor='black',fmt = 'none', mfc='black', mec='black', ms=5, mew=2, label='Measured rate uncertainty')
+plt.plot(time, lin_pred,color='blue', linestyle='solid',label='Linear prediction')
+plt.plot(time, nonlin_pred,color='red', linestyle='solid',label='Nonlinear prediction')
 plt.plot(time, nonlin(time, theoretical_tau, y_nought),color='green', linestyle='solid',label='Theoretical prediction')
 plt.legend(loc='upper right', frameon=True)
 plt.yscale('log')
@@ -111,7 +109,7 @@ print('Nonlinear regression yields a half-life of',half_life_nonlin/60,'minutes 
 print('The theoretical half-life of Barium-137 is 2.6 minutes.')
 
 #step 12: reduced chi-squared
-def chi_squared(mesrd_y:list, est_y:list, sigma:list, num_data:int, parameters:int)->float:
+def chi_squared(mesrd_y, est_y, sigma, num_data:int, parameters:int)->float:
     sum_data = 0
     i=0
     while i<len(mesrd_y):
