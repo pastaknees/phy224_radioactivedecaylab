@@ -93,7 +93,7 @@ plt.errorbar(time, R, u_R, marker='|', capsize=4, ecolor='black',fmt = 'none', m
 plt.plot(time, lin_pred,color='blue', linestyle='solid',label='Linear prediction')
 plt.plot(time, nonlin_pred,color='red', linestyle='solid',label='Nonlinear prediction')
 plt.plot(time, nonlin(time, theoretical_tau, y_nought),color='green', linestyle='solid',label='Theoretical prediction')
-plt.legend(loc='upper right', frameon=True)
+plt.legend(loc='lower left', frameon=True)
 plt.yscale('log')
 plt.savefig('Barium137_decay_logscaled.png')
 
@@ -104,6 +104,9 @@ u_lin_tau = lin_pstd[0] #linear regression tau uncertainty
 u_lin_halflife = u_lin_tau/(half_life_lin**2)
 u_nonlin_tau = nonlin_pstd[0] #nonlinear regression tau uncertainty
 u_nonlin_halflife = u_nonlin_tau/(half_life_nonlin**2)
+
+print('Linear regression tau is',tau_lin,'seconds +-',u_lin_tau, 'seconds.')
+print('Nonlinear regression tau is', tau_nonlin, 'seconds +-', u_nonlin_tau, 'seconds.')
 print('Linear regression yields a half-life of',half_life_lin/60,'minutes with an uncertainty of +-', u_lin_halflife,'minutes.')
 print('Nonlinear regression yields a half-life of',half_life_nonlin/60,'minutes with an uncertainty of +-', u_nonlin_halflife,'minutes.')
 print('The theoretical half-life of Barium-137 is 2.6 minutes.')
